@@ -1,0 +1,80 @@
+GRANT EXECUTE ON PROCEDURE RentalPropertyDatabase.CreateContract TO 'propertymanager'@'localhost';
+GRANT INSERT, UPDATE, DELETE ON RentalPropertyDatabase.PropertyManagers TO 'propertymanager'@'localhost';
+GRANT EXECUTE ON PROCEDURE RentalPropertyDatabase.GetBalance TO 'propertymanager'@'localhost';
+GRANT SELECT ON RentalPropertyDatabase.PropertyDetails TO 'propertymanager'@'localhost';
+GRANT SELECT ON RentalPropertyDatabase.PropertyFeatures TO 'propertymanager'@'localhost';
+GRANT SELECT ON RentalPropertyDatabase.Contracts TO 'propertymanager'@'localhost';
+GRANT SELECT ON RentalPropertyDatabase.Transactions TO 'propertymanager'@'localhost';
+GRANT SELECT ON RentalPropertyDatabase.TransactionStatus TO 'propertymanager'@'localhost';
+SHOW GRANTS FOR 'propertymanager'@'localhost';
+
+
+
+
+GRANT SELECT ON RentalPropertyDatabase.UserDetails TO 'maintenance'@'localhost';
+GRANT SELECT ON RentalPropertyDatabase.Response TO 'maintenance'@'localhost';
+GRANT EXECUTE ON PROCEDURE RentalPropertyDatabase.UpdateResponse TO 'maintenance'@'localhost';
+SHOW GRANTS FOR 'maintenance'@'localhost';
+
+
+GRANT UPDATE(UserName) ON RentalPropertyDatabase.UserCredentials TO 'user1'@'localhost';
+GRANT UPDATE(FirstName,LastName,Phone) ON RentalPropertyDatabase.UserDetails TO 'user1'@'localhost';
+GRANT SELECT(UserID,FirstName,LastName) ON RentalPropertyDatabase.UserDetails TO 'user1'@'localhost';
+GRANT SELECT ON RentalPropertyDatabase.PropertyDetails TO 'user1'@'localhost';
+GRANT EXECUTE ON PROCEDURE RentalPropertyDatabase.GetBalance TO 'user1'@'localhost';
+GRANT EXECUTE ON PROCEDURE RentalPropertyDatabase.SendRequest TO 'user1'@'localhost';
+GRANT EXECUTE ON PROCEDURE RentalPropertyDatabase.CreateTransaction TO 'user1'@'localhost';
+GRANT SELECT ON RentalPropertyDatabase.Contracts TO 'user1'@'localhost';
+GRANT SELECT ON RentalPropertyDatabase.RatingsAndReviews TO 'user1'@'localhost';
+SHOW GRANTS FOR 'user1'@'localhost';
+
+
+GRANT SELECT ON RentalPropertyDatabase.logtablefortransactions TO 'admin'@'localhost';
+GRANT SELECT ON RentalPropertyDatabase.* TO 'admin'@'localhost';
+GRANT EXECUTE ON PROCEDURE RentalPropertyDatabase.UpdateContractStatus TO 'admin'@'localhost';
+SHOW GRANTS FOR 'admin'@'localhost';
+-- -------------------------------------------------------
+
+
+CALL CreateContract(202, '2023-10-15', '2023-12-28', 1500);
+CALL CreateContract(202, '2023-10-13', '2024-12-26', 1500);
+CALL CreateContract(205, '2023-10-13', '2024-12-16', 1000);
+CALL CreateContract(206, '2023-10-13', '2024-10-1', 1000);
+SELECT * FROM Contracts;
+SELECT * FROM Transactions;
+CALL CreateTransaction(13, 'Credit', 1500);
+CALL CreateTransaction(14, 'Debit', 200);
+CALL CreateTransaction(15, 'Credit', 400);
+CALL CreateTransaction(16, 'Credit', 1000);
+SELECT * FROM Contracts;
+SELECT * FROM TransactionStatus;
+call getBalance(16);
+CALL CreateTransaction(13, 'Credit', 500);
+CALL CreateTransaction(14, 'Credit', 500);
+CALL CreateTransaction(15, 'Credit', 500);
+CALL CreateTransaction(16, 'Credit', 500);
+SELECT * FROM Contracts;
+SELECT * FROM TransactionStatus;
+
+
+CALL UpdateContractStatus();
+
+CALL GetBalance(15);
+CALL CreateTransaction(15, 'Debit', 600);
+SELECT * FROM Contracts;
+SELECT * FROM Transactions;
+SELECT * FROM TransactionStatus;
+SELECT * FROM PropertyDetails;
+
+
+-- -----------------------------------------
+SELECT * FROM logtablefortransactions;
+-- ----------------------------------------------
+CALL AddRatingAndReview(205,2,'Property Is Average');
+SELECT * FROM RatingsAndReviews;
+-- ---------------------------------------------------
+CALL SendRequest(202,'Enquiry','how to lock windows');
+SELECT * FROM Requests;
+SELECT * FROM Response;
+CALL UpdateResponse(402,'COMPLETE','ADJUST THE FRAME PIN IN CLOCKWISE DIRECTIONS');
+SELECT * FROM Response;
