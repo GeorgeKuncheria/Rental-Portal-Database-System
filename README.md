@@ -86,7 +86,6 @@ Updates the response for a specific request.
 Adds a new rating and review for a property.
 
 ## Views
-Views are virtual tables created by a query joining one or more tables. They provide a way to simplify complex queries and present data in a specific format without duplicating the data.
 
 ### LogTableForTransactions
 A view to log and present transaction details, including property, user, and payment status information.
